@@ -1,0 +1,1 @@
+cloudshell-firewall-juniper-junos>=1.0,<1.1
