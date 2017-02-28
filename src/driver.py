@@ -22,7 +22,7 @@ from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterf
 
 class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInterface, GlobalLock):
     SUPPORTED_OS = [r'[Jj]uniper']
-    SHELL_NAME = "Juniper JunOS Firewall 2 Gen"
+    SHELL_NAME = "Juniper JunOS Firewall 2G"
     # SHELL_NAME = ""
 
     def __init__(self):
