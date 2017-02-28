@@ -14,7 +14,7 @@ imports:
 
 node_types:
 
-  vendor.Juniper JunOS Switch 2 Gen:
+  vendor.Juniper JunOS Firewall 2 Gen:
     derived_from: cloudshell.nodes.Firewall
     #properties:
     #  property_name:
