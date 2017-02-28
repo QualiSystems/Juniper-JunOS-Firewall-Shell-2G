@@ -5,7 +5,7 @@ import os
 import re
 
 from cloudshell.devices.autoload.autoload_builder import AutoloadDetailsBuilder
-from cloudshell.devices.standards.networking.autoload_structure import *
+from cloudshell.devices.standards.firewall.autoload_structure import *
 from cloudshell.firewall.juniper.junos.helpers.add_remove_vlan_helper import AddRemoveVlanHelper
 from cloudshell.firewall.juniper.junos.utils import sort_elements_by_attributes
 
