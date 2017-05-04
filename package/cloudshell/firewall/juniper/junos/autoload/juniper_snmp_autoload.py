@@ -4,10 +4,19 @@
 import os
 import re
 
+from collections import OrderedDict
+
 from cloudshell.devices.autoload.autoload_builder import AutoloadDetailsBuilder
 from cloudshell.devices.standards.firewall.autoload_structure import *
-from cloudshell.firewall.juniper.junos.helpers.add_remove_vlan_helper import AddRemoveVlanHelper
 from cloudshell.firewall.juniper.junos.utils import sort_elements_by_attributes
+
+PORT_NAME_CHAR_REPLACEMENT = OrderedDict([(':', '--'), ('/', '-')])
+
+
+def convert_port_name(port_name):
+    for char, replacement in PORT_NAME_CHAR_REPLACEMENT.iteritems():
+        port_name = port_name.replace(char, replacement)
+    return port_name
 
 
 class JuniperGenericPort(object):
@@ -129,7 +138,7 @@ class JuniperGenericPort(object):
         :return:
         """
         port = GenericPort(shell_name=self.shell_name,
-                           name=AddRemoveVlanHelper.convert_port_name(self.port_name),
+                           name=convert_port_name(self.port_name),
                            unique_id='{0}.{1}.{2}'.format(self._resource_name, 'port', self.index))
 
         port.port_description = self.port_description
@@ -150,7 +159,7 @@ class JuniperGenericPort(object):
         Build PortChannel instance using collected information
         :return:
         """
-        port_name = AddRemoveVlanHelper.convert_port_name(self.port_name)
+        port_name = convert_port_name(self.port_name)
         port_channel = GenericPortChannel(shell_name=self.shell_name,
                                           name=port_name,
                                           unique_id='{0}.{1}.{2}'.format(self._resource_name,
