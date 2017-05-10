@@ -97,6 +97,9 @@ node_types:
             type: boolean
             default: true
             description: Used by the power management orchestration, if enabled, to determine whether to automatically manage the device power status. Enabled by default.
+          VRF Management Name:
+            description: The default VRF Management to use if configured in the network and no such input was passed to the Save or Restore command.
+            type: string
           Console Server IP Address:
             description: The IP address of the console server, in IPv4 format.
             type: string
