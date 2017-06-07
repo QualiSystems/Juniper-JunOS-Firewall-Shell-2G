@@ -6,5 +6,4 @@
 [![Dependency Status](https://dependencyci.com/github/QualiSystems/Juniper-JunOS-Firewall-Shell-2Gen/badge)](https://dependencyci.com/github/QualiSystems/Juniper-JunOS-Firewall-Shell-2Gen)
 [![Stories in Ready](https://badge.waffle.io/QualiSystems/Juniper-JunOS-Firewall-Shell-2Gen.svg?label=ready&title=Ready)](http://waffle.io/QualiSystems/Juniper-JunOS-Firewall-Shell-2Gen)
 
-
 CloudShell Firewall Juniper JunOS Shell 2 Generation 
