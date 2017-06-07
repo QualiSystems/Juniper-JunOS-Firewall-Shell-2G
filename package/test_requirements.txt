@@ -1,1 +1,4 @@
-mock==2.0
+nose
+coverage
+unittest2
+mock
