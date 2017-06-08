@@ -1,8 +1,12 @@
 language: python
 python:
-    - "2.7"
+- '2.7'
+env:
+  - TEST_DIR=package
+  - TEST_DIR=.
 
 install:
+    - pip install coveralls
     - pushd package
     - 'if [ ${TRAVIS_BRANCH} \!= "master" ] && [ -f dev_requirements.txt ]; then
         pip install --extra-index-url https://testpypi.python.org/pypi -r dev_requirements.txt;
@@ -10,14 +14,16 @@ install:
       else
         python setup.py install;
       fi'
-    - pip install -r test_requirements.txt
     - popd
-    - pip install -r src/requirements.txt
+    - cd $TEST_DIR
     - pip install -r test_requirements.txt
-    - pip install coveralls
 
 script:
-    - nosetests --with-coverage --cover-package=src,cloudshell.firewall.juniper.junos tests
+    - 'if [ $TEST_DIR = "package" ]; then
+        nosetests --with-coverage --cover-package=cloudshell.firewall.juniper.junos tests;
+      else
+        nosetests --with-coverage --cover-package=src tests;
+      fi'
 
 after_success:
     - coveralls

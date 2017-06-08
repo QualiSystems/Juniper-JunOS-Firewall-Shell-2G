@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from mock import Mock
 
-from cloudshell.networking.juniper.runners.juniper_autoload_runner import JuniperAutoloadRunner
+from cloudshell.firewall.juniper.junos.runners.juniper_autoload_runner import JuniperAutoloadRunner
 
 
 class TestJuniperAutoloadRunner(TestCase):
