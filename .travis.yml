@@ -15,9 +15,7 @@ install:
         python setup.py install;
       fi'
     - popd
-    - 'if [ $TEST_DIR = "package" ]; then
-          cd $TEST_DIR;
-      fi'
+    - cd $TEST_DIR
     - pip install -r test_requirements.txt
 
 script:
