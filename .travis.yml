@@ -16,7 +16,7 @@ install:
       fi'
     - popd
     - 'if [ $TEST_DIR = "package" ]; then
-          cd $TEST_DIR
+          cd $TEST_DIR;
       fi'
     - pip install -r test_requirements.txt
 
