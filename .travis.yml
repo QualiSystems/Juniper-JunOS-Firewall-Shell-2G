@@ -10,14 +10,13 @@ install:
       else
         python setup.py install;
       fi'
-    - pip install -r test_requirements.txt
     - popd
     - pip install -r src/requirements.txt
     - pip install -r test_requirements.txt
     - pip install coveralls
 
 script:
-    - nosetests --with-coverage --cover-package=src,cloudshell.firewall.juniper.junos tests
+    - nosetests --with-coverage --cover-package=src tests
 
 after_success:
     - coveralls
