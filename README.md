@@ -10,11 +10,11 @@
 
 # **Juniper JunOS Firewall 2G Shell**  
 
-Release date: April 2017
+Release date: December 2018
 
 Shell version: 2.0.0
 
-Document version: 1.0.1
+Document version: 1.1
 
 # In This Guide
 
