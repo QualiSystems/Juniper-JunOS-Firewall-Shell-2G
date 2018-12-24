@@ -12,9 +12,9 @@
 
 Release date: April 2017
 
-Shell version: 1.0.0
+Shell version: 2.0.0
 
-Document version: 1.0.0
+Document version: 1.0.1
 
 # In This Guide
 
@@ -38,7 +38,7 @@ The **Juniper JunOS Firewall 2G** shell provides you with connectivity and manag
 For more information on the **Juniper JunOS Firewall**, see the official **Juniper** product documentation.
 
 ### Standard version
-**Juniper JunOS Firewall 2G Shell 1.0.0** is based on the Firewall Shell Standard version **3.0.0**.
+**Juniper JunOS Firewall 2G Shell 2.0.0** is based on the Firewall Shell Standard version **3.0.2**.
 
 For detailed information about the shell’s structure and attributes, see the [Firewall Shell Standard](https://github.com/QualiSystems/cloudshell-standards/blob/master/Documentation/firewall_standard.md) in GitHub.
 
@@ -49,7 +49,7 @@ For detailed information about the shell’s structure and attributes, see the [
 
 ### Requirements
 
-Release: **Juniper JunOS Firewall 2G Shell 1.0.0**
+Release: **Juniper JunOS Firewall 2G Shell 2.0.0**
 
 ▪ CloudShell version: 8.0 and above
 
@@ -106,10 +106,10 @@ The shell comprises:
 |File name|Description|
 |:---|:---|
 |JuniperJunosFirewallShell2G.zip|Juniper JunOS Firewall 2G shell package|
-|cloudshell-firewall-juniper-junos-2-gen-dependencies-package-1.0.X.zip|Shell Python dependencies (for offline deployments only)|
+|cloudshell-firewall-juniper-junos-2-gen-dependencies-package-2.0.X.zip|Shell Python dependencies (for offline deployments only)|
 
 # Importing and Configuring the Shell
-This section describes how to import the **Juniper JunOS Firewall 2G 1.0.0** shell and configure and modify the shell’s devices.
+This section describes how to import the **Juniper JunOS Firewall 2G 2.0.0** shell and configure and modify the shell’s devices.
 
 ### Importing the shell into CloudShell
 
@@ -157,7 +157,7 @@ For more information, see [Configuring CloudShell to Execute Python Commands in 
 Before PyPi Server was introduced as CloudShell’s python package management mechanism, the `PythonOfflineRepositoryPath` key was used to set the default offline package repository on the Quali Server machine, and could be used on specific Execution Server machines to set a different folder. 
 
 **To set the offline python repository:**
-1. Download the *cloudshell-firewall-juniper-junos-2-gen-dependencies-package-1.0.X.zip* file, see [Downloading the Shell](#downloading-the-shell).
+1. Download the *cloudshell-firewall-juniper-junos-2-gen-dependencies-package-2.0.X.zip* file, see [Downloading the Shell](#downloading-the-shell).
 
 2. Unzip it to a local repository. Make sure the execution server has access to this folder. 
 
