@@ -1,18 +1,15 @@
-
-
 [![Build status](https://travis-ci.org/QualiSystems/Juniper-JunOS-Firewall-Shell-2G.svg?branch=dev)](https://travis-ci.org/QualiSystems/Juniper-JunOS-Firewall-Shell-2G)
-[![Coverage Status](https://coveralls.io/repos/github/QualiSystems/Juniper-JunOS-Firewall-Shell-2G/badge.svg)](https://coveralls.io/github/QualiSystems/Juniper-JunOS-Firewall-Shell-2G)
-[![PyPI version](https://badge.fury.io/py/Juniper-JunOS-Firewall-Shell-2G.svg)](https://badge.fury.io/py/Juniper-JunOS-Firewall-Shell-2G)
-[![Dependency Status](https://dependencyci.com/github/QualiSystems/Juniper-JunOS-Firewall-Shell-2G/badge)](https://dependencyci.com/github/QualiSystems/Juniper-JunOS-Firewall-Shell-2G)
-[![Stories in Ready](https://badge.waffle.io/QualiSystems/Juniper-JunOS-Firewall-Shell-2G.svg?label=ready&title=Ready)](http://waffle.io/QualiSystems/Juniper-JunOS-Firewall-Shell-2G)
+[![codecov](https://codecov.io/gh/QualiSystems/Juniper-JunOS-Firewall-Shell-2G/branch/master/graph/badge.svg)](https://codecov.io/gh/QualiSystems/Juniper-JunOS-Firewall-Shell-2G)
 
 ![](https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/cloudshell_logo.png)
 
 # **Juniper JunOS Firewall 2G Shell**  
 
-Release date: December 2018
+Release date: September 2019
 
-Shell version: 2.0.0
+Shell version: 3.0.0
+
+Python version: 3.7
 
 Document version: 1.1
 
@@ -38,7 +35,7 @@ The **Juniper JunOS Firewall 2G** shell provides you with connectivity and manag
 For more information on the **Juniper JunOS Firewall**, see the official **Juniper** product documentation.
 
 ### Standard version
-**Juniper JunOS Firewall 2G Shell 2.0.0** is based on the Firewall Shell Standard version **3.0.2**.
+**Juniper JunOS Firewall 2G Shell 3.0.0** is based on the Firewall Shell Standard version **3.0.2**.
 
 For detailed information about the shell’s structure and attributes, see the [Firewall Shell Standard](https://github.com/QualiSystems/cloudshell-standards/blob/master/Documentation/firewall_standard.md) in GitHub.
 
@@ -49,7 +46,7 @@ For detailed information about the shell’s structure and attributes, see the [
 
 ### Requirements
 
-Release: **Juniper JunOS Firewall 2G Shell 2.0.0**
+Release: **Juniper JunOS Firewall 2G Shell 3.0.0**
 
 ▪ CloudShell version: 8.0 and above
 
@@ -106,7 +103,7 @@ The shell comprises:
 |File name|Description|
 |:---|:---|
 |JuniperJunosFirewallShell2G.zip|Juniper JunOS Firewall 2G shell package|
-|cloudshell-firewall-juniper-junos-2-gen-dependencies-package-2.0.X.zip|Shell Python dependencies (for offline deployments only)|
+|junos-dependencies-package-3.0.X.zip|Shell Python dependencies (for offline deployments only)|
 
 # Importing and Configuring the Shell
 This section describes how to import the **Juniper JunOS Firewall 2G 2.0.0** shell and configure and modify the shell’s devices.
