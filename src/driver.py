@@ -43,19 +43,27 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
     def get_inventory(self, context):
         """Return device structure with all standard attributes
 
-        :param ResourceCommandContext context: ResourceCommandContext object with all Resource Attributes inside
+        :param ResourceCommandContext context: ResourceCommandContext object with all
+          Resource Attributes inside
         :return: response
         :rtype: str
         """
-
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = FirewallResourceConfig.from_context(self.SHELL_NAME, context, api, self.SUPPORTED_OS)
+            resource_config = FirewallResourceConfig.from_context(
+                self.SHELL_NAME, context, api, self.SUPPORTED_OS
+            )
 
-            cli_configurator = JuniperCliConfigurator(self._cli, resource_config, logger)
-            enable_disable_snmp_flow = JuniperEnableDisableSnmpFlow(cli_configurator, logger)
-            snmp_configurator = EnableDisableSnmpConfigurator(enable_disable_snmp_flow, resource_config, logger)
+            cli_configurator = JuniperCliConfigurator(
+                self._cli, resource_config, logger
+            )
+            enable_disable_snmp_flow = JuniperEnableDisableSnmpFlow(
+                cli_configurator, logger
+            )
+            snmp_configurator = EnableDisableSnmpConfigurator(
+                enable_disable_snmp_flow, resource_config, logger
+            )
 
             resource_model = FirewallResourceModel.from_resource_config(resource_config)
 
@@ -68,7 +76,8 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
     def run_custom_command(self, context, custom_command):
         """Send custom command
 
-        :param ResourceCommandContext context: ResourceCommandContext object with all Resource Attributes inside
+        :param ResourceCommandContext context: ResourceCommandContext object with all
+          Resource Attributes inside
         :return: result
         :rtype: str
         """
@@ -90,7 +99,8 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
     def run_custom_config_command(self, context, custom_command):
         """Send custom command in configuration mode
 
-        :param ResourceCommandContext context: ResourceCommandContext object with all Resource Attributes inside
+        :param ResourceCommandContext context: ResourceCommandContext object with all
+          Resource Attributes inside
         :return: result
         :rtype: str
         """
@@ -112,7 +122,8 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
     def save(self, context, folder_path, configuration_type, vrf_management_name):
         """Save selected file to the provided destination
 
-        :param ResourceCommandContext context: ResourceCommandContext object with all Resource Attributes inside
+        :param ResourceCommandContext context: ResourceCommandContext object with all
+          Resource Attributes inside
         :param configuration_type: source file, which will be saved
         :param folder_path: destination path where file will be saved
         :param vrf_management_name: VRF management Name
@@ -127,7 +138,9 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
                 api,
                 self.SUPPORTED_OS,
             )
-            cli_configurator = JuniperCliConfigurator(self._cli, resource_config, logger)
+            cli_configurator = JuniperCliConfigurator(
+                self._cli, resource_config, logger
+            )
 
             if not configuration_type:
                 configuration_type = 'running'
@@ -135,18 +148,26 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
             if not vrf_management_name:
                 vrf_management_name = resource_config.vrf_management_name
 
-            configuration_operations = JuniperConfigurationFlow(resource_config, logger, cli_configurator)
+            configuration_operations = JuniperConfigurationFlow(
+                resource_config, logger, cli_configurator
+            )
             logger.info('Save started')
-            response = configuration_operations.save(folder_path=folder_path, configuration_type=configuration_type,
-                                                     vrf_management_name=vrf_management_name)
+            response = configuration_operations.save(
+                folder_path=folder_path,
+                onfiguration_type=configuration_type,
+                vrf_management_name=vrf_management_name
+            )
             logger.info('Save completed')
             return response
 
     @GlobalLock.lock
-    def restore(self, context, path, configuration_type, restore_method, vrf_management_name):
+    def restore(
+            self, context, path, configuration_type, restore_method, vrf_management_name
+    ):
         """Restore selected file to the provided destination
 
-        :param ResourceCommandContext context: ResourceCommandContext object with all Resource Attributes inside
+        :param ResourceCommandContext context: ResourceCommandContext object with all
+          Resource Attributes inside
         :param path: source config file
         :param configuration_type: running or startup configs
         :param restore_method: append or override methods
@@ -184,7 +205,8 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
     def orchestration_save(self, context, mode, custom_params):
         """
 
-        :param ResourceCommandContext context: ResourceCommandContext object with all Resource Attributes inside
+        :param ResourceCommandContext context: ResourceCommandContext object with all
+          Resource Attributes inside
         :param mode: mode
         :param custom_params: json with custom save parameters
         :return str response: response json
@@ -209,18 +231,22 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
             )
 
             logger.info('Orchestration save started')
-            # response = configuration_operations.orchestration_save(mode=mode, custom_params=custom_params)
-            response = configuration_operations.orchestration_save(mode=mode,
-                                                                   custom_params=custom_params)
-            response_json = OrchestrationSaveRestore(logger, resource_config.name).prepare_orchestration_save_result(
-                response)
+
+            response = configuration_operations.orchestration_save(
+                mode=mode,
+                custom_params=custom_params
+            )
+            response_json = OrchestrationSaveRestore(
+                logger, resource_config.name
+            ).prepare_orchestration_save_result(response)
             logger.info('Orchestration save completed')
             return response_json
 
     def orchestration_restore(self, context, saved_artifact_info, custom_params):
-        """
+        """Orchestration Restore.
 
-        :param ResourceCommandContext context: ResourceCommandContext object with all Resource Attributes inside
+        :param ResourceCommandContext context: ResourceCommandContext object with all
+          Resource Attributes inside
         :param saved_artifact_info: OrchestrationSavedArtifactInfo json
         :param custom_params: json with custom restore parameters
         """
@@ -256,7 +282,8 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
     def load_firmware(self, context, path, vrf_management_name):
         """Upload and updates firmware on the resource
 
-        :param ResourceCommandContext context: ResourceCommandContext object with all Resource Attributes inside
+        :param ResourceCommandContext context: ResourceCommandContext object with all
+          Resource Attributes inside
         :param path: full path to firmware file, i.e. tftp://10.10.10.1/firmware.tar
         :param vrf_management_name: VRF management Name
         """
@@ -276,13 +303,16 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
 
             logger.info('Start Load Firmware')
             firmware_operations = JuniperFirmwareFlow(logger, cli_configurator)
-            response = firmware_operations.load_firmware(path=path, vrf_management_name=vrf_management_name)
+            response = firmware_operations.load_firmware(
+                path=path, vrf_management_name=vrf_management_name
+            )
             logger.info('Finish Load Firmware: {}'.format(response))
 
     def health_check(self, context):
         """Performs device health check
 
-        :param ResourceCommandContext context: ResourceCommandContext object with all Resource Attributes inside
+        :param ResourceCommandContext context: ResourceCommandContext object with all
+          Resource Attributes inside
         :return: Success or Error message
         :rtype: str
         """
@@ -295,7 +325,9 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
                 api,
                 self.SUPPORTED_OS,
             )
-            cli_configurator = JuniperCliConfigurator(self._cli, resource_config, logger)
+            cli_configurator = JuniperCliConfigurator(
+                self._cli, resource_config, logger
+            )
 
             state_operations = JuniperStateFlow(
                 logger, resource_config, cli_configurator, api
@@ -315,7 +347,9 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
                 api,
                 self.SUPPORTED_OS,
             )
-            cli_configurator = JuniperCliConfigurator(self._cli, resource_config, logger)
+            cli_configurator = JuniperCliConfigurator(
+                self._cli, resource_config, logger
+            )
 
             state_operations = JuniperStateFlow(
                 logger, resource_config, cli_configurator, api
