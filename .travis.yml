@@ -35,10 +35,10 @@ jobs:
         skip_cleanup: true
         draft: true
         api_key:
-          secure: "lhP0ip6lvaPKyGTJ70/Eo4APa11tvn2jh0vdQM9H3ivAeNM5FtPdH2i6sdjli2pSX97y/47Y5bGAMm/q0MCYHM9qr6PUhxCem+ApMDX8hfosFcjcWwwoMlmq78PRO4jDitIZBnvmAJVzZGiixgpXE3KfoMbSm6fnrzM02ALQY/wciSiKy7UZ5MUEBYdZx0be1d0z5RvBGmKdwQi0Ia5KoAFr917RITwjgWfmgDDybcyKgA0pxplsjrPyLhTx/6Ur/GIM4flRndZBD+Tte1aGndcY6h5s8nwnaoFg63L/FRgu+ShqdJfx3RKgDFyXHB1MaWJV+d0P280NQRK00o7tjMvd88sI/eNanPCw9oAYDAfzE9LRkoBZ4iz6qK7Hcw7A3bnlScFDODqPiY+cM4NTis697ruTvv8JRNrvCEtDFKO0OsPDiAh7QXKpBGLyGBLnmQDv5rWfsl+i167YcOuvbTBmTOuy8pH/0lVxtxqmUzH+NOFY5vWN3mak89z1YoQKQrChCayoQ9caCWfF7xy9lGkEuveFiLow7sglZgO8myex/LKbvyQpOa6qt0UCxN1DZvwuZmpXGuI7K0RpYxYILpnsBE5hOS0rWq8aERcbiieKmf0ldUnD17fWB6AVeLvDu7do2OjI6MaKolsXQ5ItU+4QGM5lxKLks+7ZAEil8QU="
+          secure: "GFbY2S5A4hMQZk9qXTD6BDW+YP8wVXS9c4lTFY6LqJ+l98DlTL3uZLrvUKTf5tJkVGnqRv9MjiIT7QQ8vHct0vvHTvqcmaCf54uivs/FkX+kuQCH03pSDffjJbg66gdUJC1toLC2xry1AKzk/jRMo8gPErWTyngGmV1wX1N5li+BkLhCKpQZWq0M6quANQr3/03kx7abirjPYJEoT/gs5btDtgaDjawh+VuayXPxqUE4Sup2WhgZKda474IvP/VtnZSwLHy9CZqARhg5QG8EP0/rRusLRxt3itR07IhddAkiRjNPs63+eB/oohB3F0AsLInyAMONz8ATJvA/AwHKzI3tFXFFRpU+6stffCTBnn9xJDwchScbPNY5n7Q5Gq1elu45vBV7yNOtZU4B/jWRi+gVbzrtzknT2rzoGCauEMqrOLdR7Tg23eDJKavYvM+TC5pqV/wqISbHJRkproVfSVn7JIIpP+vt+LvwTF90s5hzZzEjzlJtldtr88U9ZXOf7iGc0EObVaYAbL2R8etIGMh1QaGbUQL5FMpRfZcmF6vRZzP41kySqel2A5vOev6uwStZWJcOszDz42Nl2NwpvzS5iLAtHZb/9zgKHYzHKQc7Fpc8pfga/pg8bfuk9c5fsWTAejOAJ1tRLwysht0KaQl55G5Ykk2aqof6dlOY46M="
         file_glob: true
         file: dist/*.zip
-        name: Juniper JunOS Router Shell 2G $GIT_TAG
+        name: Juniper JunOS Firewall Shell 2G $GIT_TAG
         target_commitish: master
         on:
           branch: master
