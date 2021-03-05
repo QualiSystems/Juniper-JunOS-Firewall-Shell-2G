@@ -172,7 +172,7 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
             logger.info("Save started")
             response = configuration_operations.save(
                 folder_path=folder_path,
-                onfiguration_type=configuration_type,
+                configuration_type=configuration_type,
                 vrf_management_name=vrf_management_name,
             )
             logger.info("Save completed")
