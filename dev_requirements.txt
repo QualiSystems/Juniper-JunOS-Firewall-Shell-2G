@@ -1,9 +1,1 @@
--e git+https://github.com/QualiSystems/cloudshell-logging.git@dev#egg=cloudshell-logging
--e git+https://github.com/QualiSystems/cloudshell-shell-core.git@dev#egg=cloudshell-shell-core
--e git+https://github.com/QualiSystems/cloudshell-core.git@dev#egg=cloudshell-core
--e git+https://github.com/QualiSystems/cloudshell-cli.git@dev#egg=cloudshell-cli
--e git+https://github.com/QualiSystems/cloudshell-snmp.git@dev#egg=cloudshell-snmp
--e git+https://github.com/QualiSystems/cloudshell-shell-flows.git@dev#egg=cloudshell-shell-flows
--e git+https://github.com/QualiSystems/cloudshell-shell-standards.git@dev#egg=cloudshell-shell-standards
--e git+https://github.com/QualiSystems/cloudshell-shell-firewall-standard.git@dev#egg=cloudshell-shell-firewall-standard
--e git+https://github.com/QualiSystems/cloudshell-networking-juniper.git@dev#egg=cloudshell-networking-juniper
+-r requirements.txt
