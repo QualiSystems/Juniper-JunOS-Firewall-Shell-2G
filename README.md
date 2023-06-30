@@ -1,15 +1,12 @@
-[![Build status](https://github.com/QualiSystems/Juniper-JunOS-Firewall-Shell-2G/workflows/CI/badge.svg?branch=master)](https://github.com/QualiSystems/Juniper-JunOS-Firewall-Shell-2G/actions?query=branch%3Amaster)
-[![codecov](https://codecov.io/gh/QualiSystems/Juniper-JunOS-Firewall-Shell-2G/branch/master/graph/badge.svg)](https://codecov.io/gh/QualiSystems/Juniper-JunOS-Firewall-Shell-2G)
-
 ![](https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/cloudshell_logo.png)
 
 # **Juniper JunOS Firewall 2G Shell**  
 
-Release date: September 2019
+Release date: June 2023
 
-Shell version: 3.0.1
+Shell version: 4.0.0
 
-Python version: 3.7
+Python version: 3.9
 
 Document version: 1.1
 
@@ -35,7 +32,7 @@ The **Juniper JunOS Firewall 2G** shell provides you with connectivity and manag
 For more information on the **Juniper JunOS Firewall**, see the official **Juniper** product documentation.
 
 ### Standard version
-**Juniper JunOS Firewall 2G Shell 3.0.0** is based on the Firewall Shell Standard version **3.0.2**.
+**Juniper JunOS Firewall 2G Shell 4.0.0** is based on the Firewall Shell Standard version **3.0.2**.
 
 For detailed information about the shell’s structure and attributes, see the [Firewall Shell Standard](https://github.com/QualiSystems/cloudshell-standards/blob/master/Documentation/firewall_standard.md) in GitHub.
 
@@ -46,9 +43,9 @@ For detailed information about the shell’s structure and attributes, see the [
 
 ### Requirements
 
-Release: **Juniper JunOS Firewall 2G Shell 3.0.0**
+Release: **Juniper JunOS Firewall 2G Shell**
 
-▪ CloudShell version: 8.0 and above
+▪ CloudShell version: 2022.1 and above
 
 ▪ Certified models: Juniper SRX220
 
@@ -100,13 +97,14 @@ Download the files into a temporary location on your local machine.
 
 The shell comprises:
 
-|File name|Description|
-|:---|:---|
-|JuniperJunosFirewallShell2G.zip|Juniper JunOS Firewall 2G shell package|
-|junos-dependencies-package-3.0.X.zip|Shell Python dependencies (for offline deployments only)|
+| File name                                                                       | Description                                              |
+|:--------------------------------------------------------------------------------|:---------------------------------------------------------|
+| Juniper.JunOS.Firewall.Shell.2G.zip                                             | Juniper JunOS Firewall 2G shell package                  |
+| cloudshell-Juniper-JunOS-Firewall-Shell-2G-dependencies-linux-package-4.0.0.zip |Shell Python dependencies for linux (for offline deployments only)   |
+| cloudshell-Juniper-JunOS-Firewall-Shell-2G-dependencies-win-package-4.0.0.zip   | Shell Python dependencies for windows (for offline deployments only) |
 
 # Importing and Configuring the Shell
-This section describes how to import the **Juniper JunOS Firewall 2G 2.0.0** shell and configure and modify the shell’s devices.
+This section describes how to import the **Juniper JunOS Firewall 2G** shell and configure and modify the shell’s devices.
 
 ### Importing the shell into CloudShell
 
@@ -154,7 +152,7 @@ For more information, see [Configuring CloudShell to Execute Python Commands in 
 Before PyPi Server was introduced as CloudShell’s python package management mechanism, the `PythonOfflineRepositoryPath` key was used to set the default offline package repository on the Quali Server machine, and could be used on specific Execution Server machines to set a different folder. 
 
 **To set the offline python repository:**
-1. Download the *cloudshell-firewall-juniper-junos-2-gen-dependencies-package-2.0.X.zip* file, see [Downloading the Shell](#downloading-the-shell).
+1. Download the *cloudshell-Juniper-JunOS-Firewall-Shell-2G-dependencies-X-package-4.0.X.zip* file, see [Downloading the Shell](#downloading-the-shell).
 
 2. Unzip it to a local repository. Make sure the execution server has access to this folder. 
 
