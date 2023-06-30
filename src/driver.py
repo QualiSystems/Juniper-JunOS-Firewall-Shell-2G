@@ -1,8 +1,6 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 from cloudshell.cli.service.cli import CLI
 from cloudshell.cli.service.session_pool_manager import SessionPoolManager
+from cloudshell.shell.core.driver_context import InitCommandContext
 from cloudshell.shell.core.driver_utils import GlobalLock
 from cloudshell.shell.core.orchestration_save_restore import OrchestrationSaveRestore
 from cloudshell.shell.core.resource_driver_interface import ResourceDriverInterface
@@ -39,12 +37,9 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
     def __init__(self):
         self._cli = None
 
-    def initialize(self, context):
-        """Initialize method.
-
-        :type context: cloudshell.shell.core.context.driver_context.InitCommandContext
-        """
-        resource_config = FirewallResourceConfig.from_context(self.SHELL_NAME, context)
+    def initialize(self, context: InitCommandContext):
+        api = CloudShellSessionContext(context).get_api()
+        resource_config = FirewallResourceConfig.from_context(context, api)
         session_pool_size = int(resource_config.sessions_concurrency_limit)
         self._cli = CLI(
             SessionPoolManager(max_pool_size=session_pool_size, pool_timeout=100)
@@ -56,30 +51,26 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
         """Return device structure with all standard attributes.
 
         :param ResourceCommandContext context: ResourceCommandContext object with all
-          Resource Attributes inside
+           Resource Attributes inside
         :return: response
         :rtype: str
         """
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = FirewallResourceConfig.from_context(
-                self.SHELL_NAME, context, api, self.SUPPORTED_OS
-            )
+            resource_config = FirewallResourceConfig.from_context(context, api)
 
-            cli_configurator = JuniperCliConfigurator(
-                self._cli, resource_config, logger
+            cli_configurator = JuniperCliConfigurator.from_config(
+                resource_config, logger, self._cli
             )
-            enable_disable_snmp_flow = JuniperEnableDisableSnmpFlow(
-                cli_configurator, logger
-            )
-            snmp_configurator = EnableDisableSnmpConfigurator(
+            enable_disable_snmp_flow = JuniperEnableDisableSnmpFlow(cli_configurator)
+            snmp_configurator = EnableDisableSnmpConfigurator.from_config(
                 enable_disable_snmp_flow, resource_config, logger
             )
 
             resource_model = FirewallResourceModel.from_resource_config(resource_config)
 
-            autoload_operations = JunOSAutoloadFlow(snmp_configurator, logger)
+            autoload_operations = JunOSAutoloadFlow(snmp_configurator)
             logger.info("Autoload started")
             response = autoload_operations.discover(self.SUPPORTED_OS, resource_model)
             logger.info("Autoload completed")
@@ -89,24 +80,19 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
         """Send custom command.
 
         :param ResourceCommandContext context: ResourceCommandContext object with all
-          Resource Attributes inside
+            Resource Attributes inside
         :return: result
         :rtype: str
         """
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = FirewallResourceConfig.from_context(
-                self.SHELL_NAME,
-                context,
-                api,
-                self.SUPPORTED_OS,
-            )
-            cli_configurator = JuniperCliConfigurator(
-                self._cli, resource_config, logger
+            resource_config = FirewallResourceConfig.from_context(context, api)
+            cli_configurator = JuniperCliConfigurator.from_config(
+                resource_config, logger, self._cli
             )
 
-            send_command_operations = RunCommandFlow(logger, cli_configurator)
+            send_command_operations = RunCommandFlow(cli_configurator)
             response = send_command_operations.run_custom_command(custom_command)
             return response
 
@@ -114,24 +100,19 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
         """Send custom command in configuration mode.
 
         :param ResourceCommandContext context: ResourceCommandContext object with all
-          Resource Attributes inside
+           Resource Attributes inside
         :return: result
         :rtype: str
         """
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = FirewallResourceConfig.from_context(
-                self.SHELL_NAME,
-                context,
-                api,
-                self.SUPPORTED_OS,
-            )
-            cli_configurator = JuniperCliConfigurator(
-                self._cli, resource_config, logger
+            resource_config = FirewallResourceConfig.from_context(context, api)
+            cli_configurator = JuniperCliConfigurator.from_config(
+                resource_config, logger, self._cli
             )
 
-            send_command_operations = RunCommandFlow(logger, cli_configurator)
+            send_command_operations = RunCommandFlow(cli_configurator)
             result_str = send_command_operations.run_custom_config_command(
                 custom_command
             )
@@ -141,7 +122,7 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
         """Save selected file to the provided destination.
 
         :param ResourceCommandContext context: ResourceCommandContext object with all
-          Resource Attributes inside
+           Resource Attributes inside
         :param configuration_type: source file, which will be saved
         :param folder_path: destination path where file will be saved
         :param vrf_management_name: VRF management Name
@@ -150,14 +131,9 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = FirewallResourceConfig.from_context(
-                self.SHELL_NAME,
-                context,
-                api,
-                self.SUPPORTED_OS,
-            )
-            cli_configurator = JuniperCliConfigurator(
-                self._cli, resource_config, logger
+            resource_config = FirewallResourceConfig.from_context(context, api)
+            cli_configurator = JuniperCliConfigurator.from_config(
+                resource_config, logger, self._cli
             )
 
             if not configuration_type:
@@ -167,7 +143,7 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
                 vrf_management_name = resource_config.vrf_management_name
 
             configuration_operations = JuniperConfigurationFlow(
-                resource_config, logger, cli_configurator
+                resource_config, cli_configurator
             )
             logger.info("Save started")
             response = configuration_operations.save(
@@ -185,7 +161,7 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
         """Restore selected file to the provided destination.
 
         :param ResourceCommandContext context: ResourceCommandContext object with all
-          Resource Attributes inside
+           Resource Attributes inside
         :param path: source config file
         :param configuration_type: running or startup configs
         :param restore_method: append or override methods
@@ -194,14 +170,9 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = FirewallResourceConfig.from_context(
-                self.SHELL_NAME,
-                context,
-                api,
-                self.SUPPORTED_OS,
-            )
-            cli_configurator = JuniperCliConfigurator(
-                self._cli, resource_config, logger
+            resource_config = FirewallResourceConfig.from_context(context, api)
+            cli_configurator = JuniperCliConfigurator.from_config(
+                resource_config, logger, self._cli
             )
 
             if not configuration_type:
@@ -214,7 +185,7 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
                 vrf_management_name = resource_config.vrf_management_name
 
             configuration_operations = JuniperConfigurationFlow(
-                resource_config, logger, cli_configurator
+                resource_config, cli_configurator
             )
             logger.info("Restore started")
             configuration_operations.restore(
@@ -226,10 +197,10 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
             logger.info("Restore completed")
 
     def orchestration_save(self, context, mode, custom_params):
-        """Orchestration save.
+        """Orchestration Save.
 
         :param ResourceCommandContext context: ResourceCommandContext object with all
-          Resource Attributes inside
+           Resource Attributes inside
         :param mode: mode
         :param custom_params: json with custom save parameters
         :return str response: response json
@@ -240,27 +211,21 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = FirewallResourceConfig.from_context(
-                self.SHELL_NAME,
-                context,
-                api,
-                self.SUPPORTED_OS,
-            )
-            cli_configurator = JuniperCliConfigurator(
-                self._cli, resource_config, logger
+            resource_config = FirewallResourceConfig.from_context(context, api)
+            cli_configurator = JuniperCliConfigurator.from_config(
+                resource_config, logger, self._cli
             )
 
             configuration_operations = JuniperConfigurationFlow(
-                resource_config, logger, cli_configurator
+                resource_config, cli_configurator
             )
 
             logger.info("Orchestration save started")
-
             response = configuration_operations.orchestration_save(
                 mode=mode, custom_params=custom_params
             )
             response_json = OrchestrationSaveRestore(
-                logger, resource_config.name
+                resource_config.name
             ).prepare_orchestration_save_result(response)
             logger.info("Orchestration save completed")
             return response_json
@@ -269,36 +234,25 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
         """Orchestration Restore.
 
         :param ResourceCommandContext context: ResourceCommandContext object with all
-          Resource Attributes inside
+           Resource Attributes inside
         :param saved_artifact_info: OrchestrationSavedArtifactInfo json
         :param custom_params: json with custom restore parameters
         """
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = FirewallResourceConfig.from_context(
-                self.SHELL_NAME,
-                context,
-                api,
-                self.SUPPORTED_OS,
-            )
-            cli_configurator = JuniperCliConfigurator(
-                self._cli, resource_config, logger
+            resource_config = FirewallResourceConfig.from_context(context, api)
+            cli_configurator = JuniperCliConfigurator.from_config(
+                resource_config, logger, self._cli
             )
 
             configuration_operations = JuniperConfigurationFlow(
-                resource_config, logger, cli_configurator
+                resource_config, cli_configurator
             )
-
-            logger.info("Orchestration restore started")
-            configuration_operations.orchestration_restore(
-                saved_artifact_info=saved_artifact_info, custom_params=custom_params
-            )
-            logger.info("Orchestration restore completed")
 
             logger.info("Orchestration restore started")
             restore_params = OrchestrationSaveRestore(
-                logger, resource_config.name
+                resource_config.name
             ).parse_orchestration_save_result(saved_artifact_info, custom_params)
             configuration_operations.restore(**restore_params)
             logger.info("Orchestration restore completed")
@@ -308,57 +262,45 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
         """Upload and updates firmware on the resource.
 
         :param ResourceCommandContext context: ResourceCommandContext object with all
-          Resource Attributes inside
+           Resource Attributes inside
         :param path: full path to firmware file, i.e. tftp://10.10.10.1/firmware.tar
         :param vrf_management_name: VRF management Name
         """
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = FirewallResourceConfig.from_context(
-                self.SHELL_NAME,
-                context,
-                api,
-                self.SUPPORTED_OS,
-            )
-            cli_configurator = JuniperCliConfigurator(
-                self._cli, resource_config, logger
+            resource_config = FirewallResourceConfig.from_context(context, api)
+            cli_configurator = JuniperCliConfigurator.from_config(
+                resource_config, logger, self._cli
             )
 
             if not vrf_management_name:
                 vrf_management_name = resource_config.vrf_management_name
 
             logger.info("Start Load Firmware")
-            firmware_operations = JuniperFirmwareFlow(logger, cli_configurator)
-            response = firmware_operations.load_firmware(
+            firmware_operations = JuniperFirmwareFlow(resource_config, cli_configurator)
+            firmware_operations.load_firmware(
                 path=path, vrf_management_name=vrf_management_name
             )
-            logger.info("Finish Load Firmware: {}".format(response))
+            logger.info("Finish Load Firmware")
 
     def health_check(self, context):
         """Performs device health check.
 
         :param ResourceCommandContext context: ResourceCommandContext object with all
-          Resource Attributes inside
+           Resource Attributes inside
         :return: Success or Error message
         :rtype: str
         """
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = FirewallResourceConfig.from_context(
-                self.SHELL_NAME,
-                context,
-                api,
-                self.SUPPORTED_OS,
-            )
-            cli_configurator = JuniperCliConfigurator(
-                self._cli, resource_config, logger
+            resource_config = FirewallResourceConfig.from_context(context, api)
+            cli_configurator = JuniperCliConfigurator.from_config(
+                resource_config, logger, self._cli
             )
 
-            state_operations = JuniperStateFlow(
-                logger, resource_config, cli_configurator, api
-            )
+            state_operations = JuniperStateFlow(resource_config, cli_configurator, api)
             return state_operations.health_check()
 
     def cleanup(self):
@@ -368,17 +310,10 @@ class JuniperJunOSShellDriver(ResourceDriverInterface, FirewallResourceDriverInt
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = FirewallResourceConfig.from_context(
-                self.SHELL_NAME,
-                context,
-                api,
-                self.SUPPORTED_OS,
-            )
-            cli_configurator = JuniperCliConfigurator(
-                self._cli, resource_config, logger
+            resource_config = FirewallResourceConfig.from_context(context, api)
+            cli_configurator = JuniperCliConfigurator.from_config(
+                resource_config, logger, self._cli
             )
 
-            state_operations = JuniperStateFlow(
-                logger, resource_config, cli_configurator, api
-            )
+            state_operations = JuniperStateFlow(resource_config, cli_configurator, api)
             return state_operations.shutdown()
